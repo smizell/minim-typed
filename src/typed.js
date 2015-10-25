@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import Promise from 'bluebird';
 
 export function namespace({base}) {
   base.typed = {};
@@ -11,7 +10,7 @@ export function namespace({base}) {
       annotations: [],
 
       // Identity function by default for checking types for values
-      fn: (value) => value,
+      fn: value => value,
     });
 
     const argumentAnnotations = options.annotations.slice(0, options.annotations.length - 1);
@@ -26,34 +25,32 @@ export function namespace({base}) {
         return base.toElement(argument);
       });
 
-      return new Promise((resolve, reject) => {
-        if (refractAnnotations.length > refractArguments.length) {
-          return reject(new TypeError('Not enough arguments'));
+      if (refractAnnotations.length > refractArguments.length) {
+        throw new TypeError('Not enough arguments');
+      }
+
+      if (refractArguments.length > refractAnnotations.length) {
+        throw new TypeError('Too many arguments');
+      }
+
+      // Check inputs
+      for (let i = 0; i < refractAnnotations.length; i++) {
+        const argument = refractArguments[i];
+        const annotation = refractAnnotations[i];
+
+        if (argument.element !== annotation.element) {
+          throw new TypeError(`Expected ${annotation.element} for argument ${i}`);
         }
+      }
 
-        if (refractArguments.length > refractAnnotations.length) {
-          return reject(new TypeError('Too many arguments'));
-        }
+      const output = options.fn.apply(null, arguments);
+      const refractOutput = base.toElement(output);
 
-        // Check inputs
-        for (let i = 0; i < refractAnnotations.length; i++) {
-          const argument = refractArguments[i];
-          const annotation = refractAnnotations[i];
+      if (refractOutput.element !== outputAnnotation.element) {
+        throw new TypeError(`Expected ${outputAnnotation.element} for output`);
+      }
 
-          if (argument.element !== annotation.element) {
-            return reject(new TypeError(`Expected ${annotation.element} for argument ${i}`));
-          }
-        }
-
-        const output = options.fn.apply(null, arguments);
-        const refractOutput = base.toElement(output);
-
-        if (refractOutput.element !== outputAnnotation.element) {
-          return reject(new TypeError(`Expected ${outputAnnotation.element} for output`));
-        }
-
-        return resolve(output);
-      });
+      return output;
     };
   };
 }
