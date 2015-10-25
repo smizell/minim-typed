@@ -80,7 +80,7 @@ describe('Minim Typed', () => {
 
     before(() => {
       sum = namespace.typed.build({
-        // string string -> boolean
+        // array[number] -> number
         annotations: [
           {element: 'array', content: [{element: 'number'}]},
           {element: 'number'},
