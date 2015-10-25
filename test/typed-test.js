@@ -9,10 +9,13 @@ describe('Minim Typed', () => {
   context('with simple value annotations', () => {
     let stringChecker;
 
-
     before(() => {
       stringChecker = namespace.typed.build({
-        annotations: [{element: 'string'}]
+        // string -> string
+        annotations: [
+          {element: 'string'},
+          {element: 'string'},
+        ],
       });
     });
 
@@ -57,10 +60,41 @@ describe('Minim Typed', () => {
         expect(result).to.be.undefined;
       });
 
-      it('should not return an error', () => {
+      it('should return an error', () => {
         expect(error).to.be.an.instanceOf(TypeError);
-        expect(error.message).to.include('string'); // Expected string
       });
+    });
+  });
+
+  context('when checking the output does not match', () => {
+    let stringChecker;
+    let result;
+    let error;
+
+    before((done) => {
+      stringChecker = namespace.typed.build({
+        // string -> number
+        annotations: [
+          {element: 'string'},
+          {element: 'number'},
+        ],
+      });
+
+      stringChecker('foobar').then((checkResult) => {
+        result = checkResult;
+        done();
+      }).catch((checkError) => {
+        error = checkError;
+        done();
+      });
+    });
+
+    it('should return no value', () => {
+      expect(result).to.be.undefined;
+    });
+
+    it('should return an error', () => {
+      expect(error).to.be.an.instanceOf(TypeError);
     });
   });
 });
