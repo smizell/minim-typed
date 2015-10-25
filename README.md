@@ -56,7 +56,7 @@ var sum = namespace.typed.build({
   ],
 
   fn: function(numbers) {
-    return numbers.reduce(function sumFn(total, number) {
+    return numbers.reduce(function(total, number) {
       return total + number;
     });
   },
