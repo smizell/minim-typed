@@ -1,5 +1,24 @@
 import _ from 'lodash';
 
+function checkArgument(argument, annotation, argumentNumber) {
+  if (argument.element !== annotation.element) {
+    throw new TypeError(`Expected ${annotation.element} for argument ${argumentNumber}`);
+  }
+
+  // TODO: Handle nested arrays
+  if (annotation.element === 'array' && annotation.length > 0) {
+    const arrayTypes = annotation.content.map(item => {
+      return item.element;
+    });
+
+    argument.forEach(item => {
+      if (!_.includes(arrayTypes, item.element)) {
+        throw new TypeError(`Expected ${arrayTypes} for argument ${argumentNumber}`);
+      }
+    });
+  }
+}
+
 export function namespace({base}) {
   base.typed = {};
 
@@ -38,9 +57,7 @@ export function namespace({base}) {
         const argument = refractArguments[i];
         const annotation = refractAnnotations[i];
 
-        if (argument.element !== annotation.element) {
-          throw new TypeError(`Expected ${annotation.element} for argument ${i}`);
-        }
+        checkArgument(argument, annotation, i);
       }
 
       const output = options.fn.apply(null, arguments);

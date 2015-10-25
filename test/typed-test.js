@@ -74,4 +74,38 @@ describe('Minim Typed', () => {
       expect(stringChecker('foobar', 'foobar')).to.equal(true);
     });
   });
+
+  context('when an argument is an array', () => {
+    let sum;
+
+    before(() => {
+      sum = namespace.typed.build({
+        // string string -> boolean
+        annotations: [
+          {element: 'array', content: [{element: 'number'}]},
+          {element: 'number'},
+        ],
+
+        fn: (numbers) => {
+          return numbers.reduce(function sumFn(total, number) {
+            return total + number;
+          });
+        },
+      });
+    });
+
+    context('when given the correct input', () => {
+      it('returns the correct output', () => {
+        expect(sum([1, 2, 3])).to.equal(6);
+      });
+    });
+
+    context('when given the incorrect input', () => {
+      it('returns the correct output', () => {
+        expect(function test() {
+          sum([true, false]);
+        }).to.throw(TypeError);
+      });
+    });
+  });
 });
