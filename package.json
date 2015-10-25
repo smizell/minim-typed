@@ -1,0 +1,31 @@
+{
+  "name": "minim-typed",
+  "version": "0.0.1",
+  "description": "Annotating Types for Minim",
+  "main": "lib/typed.js",
+  "scripts": {
+    "test": "peasant test",
+    "cover": "peasant cover",
+    "lint": "peasant lint",
+    "peasant": "peasant",
+    "ci": "peasant -s lint test build",
+    "prepublish": "npm run ci"
+  },
+  "keywords": [
+    "minim",
+    "type",
+    "annotation"
+  ],
+  "author": "Stephen Mizell",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^3.4.0",
+    "minim": "^0.11.0",
+    "peasant": "^0.5.2"
+  },
+  "dependencies": {
+    "babel-runtime": "^5.8.29",
+    "bluebird": "^2.10.2",
+    "lodash": "^3.10.1"
+  }
+}
