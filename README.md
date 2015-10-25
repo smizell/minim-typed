@@ -80,6 +80,7 @@ var minimTyped = require('./lib/typed');
 var namespace = minim.namespace().use(minimTyped);
 
 var divBy = namespace.typed.build({
+  // number number -> boolean
   annotations: [
     {element: 'number'},
     {element: 'number'},
@@ -90,6 +91,7 @@ var divBy = namespace.typed.build({
 });
 
 var divBy3or5 = namespace.typed.build({
+  // number -> boolean
   annotations: [
     {element: 'number'},
     {element: 'boolean'}
@@ -102,6 +104,7 @@ var divBy3or5 = namespace.typed.build({
 });
 
 var sum = namespace.typed.build({
+  // array[number] -> number
   annotations: [
     {element: 'array', content: [{element: 'number'}]},
     {element: 'number'},
@@ -115,6 +118,7 @@ var sum = namespace.typed.build({
 });
 
 var take = namespace.typed.build({
+  // number -> array
   annotations: [
     {element: 'number'},
     {element: 'array'},
