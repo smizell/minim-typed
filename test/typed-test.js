@@ -112,7 +112,7 @@ describe('Minim Typed', () => {
           {element: 'boolean'},
         ],
 
-        fn: (string1, string2) => string1 === string2
+        fn: (string1, string2) => string1 === string2,
       });
 
       stringChecker('foobar', 'foobar').then((checkResult) => {
