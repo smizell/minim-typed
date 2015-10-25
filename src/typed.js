@@ -52,7 +52,7 @@ export function namespace({base}) {
           return reject(new TypeError(`Expected ${outputAnnotation.element} for output`));
         }
 
-        return resolve(refractArguments[0].toValue());
+        return resolve(output);
       });
     };
   };

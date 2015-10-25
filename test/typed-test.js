@@ -97,4 +97,39 @@ describe('Minim Typed', () => {
       expect(error).to.be.an.instanceOf(TypeError);
     });
   });
+
+  context('when the function has multiple arguments', () => {
+    let stringChecker;
+    let result;
+    let error;
+
+    before((done) => {
+      stringChecker = namespace.typed.build({
+        // string string -> boolean
+        annotations: [
+          {element: 'string'},
+          {element: 'string'},
+          {element: 'boolean'},
+        ],
+
+        fn: (string1, string2) => string1 === string2
+      });
+
+      stringChecker('foobar', 'foobar').then((checkResult) => {
+        result = checkResult;
+        done();
+      }).catch((checkError) => {
+        error = checkError;
+        done();
+      });
+    });
+
+    it('should return the correct value', () => {
+      expect(result).to.equal(true);
+    });
+
+    it('should not return an error', () => {
+      expect(error).to.be.undefined;
+    });
+  });
 });
