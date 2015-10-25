@@ -2,6 +2,7 @@ import {expect} from 'chai';
 
 import minim from 'minim';
 import minimTyped from '../src/typed';
+import {annotate} from '../src/typed';
 
 const namespace = minim.namespace().use(minimTyped);
 
@@ -13,8 +14,8 @@ describe('Minim Typed', () => {
       stringChecker = namespace.typed.build({
         // string -> string
         annotations: [
-          {element: 'string'},
-          {element: 'string'},
+          annotate('string'),
+          annotate('string'),
         ],
       });
     });
@@ -41,8 +42,8 @@ describe('Minim Typed', () => {
       stringChecker = namespace.typed.build({
         // string -> number
         annotations: [
-          {element: 'string'},
-          {element: 'number'},
+          annotate('string'),
+          annotate('number'),
         ],
       });
     });
@@ -61,9 +62,9 @@ describe('Minim Typed', () => {
       stringChecker = namespace.typed.build({
         // string string -> boolean
         annotations: [
-          {element: 'string'},
-          {element: 'string'},
-          {element: 'boolean'},
+          annotate('string'),
+          annotate('string'),
+          annotate('boolean'),
         ],
 
         fn: (string1, string2) => string1 === string2,
@@ -82,8 +83,8 @@ describe('Minim Typed', () => {
       sum = namespace.typed.build({
         // array[number] -> number
         annotations: [
-          {element: 'array', content: [{element: 'number'}]},
-          {element: 'number'},
+          annotate('array', [annotate('number')]),
+          annotate('number'),
         ],
 
         fn: (numbers) => {

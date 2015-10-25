@@ -1,6 +1,6 @@
 {
   "name": "minim-typed",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Annotating Types for Minim",
   "main": "lib/typed.js",
   "scripts": {

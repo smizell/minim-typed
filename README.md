@@ -34,8 +34,8 @@ The default function is the identity function. This means if you want to check t
 var stringChecker = namespace.typed.build({
   // string -> string
   annotations: [
-    {element: 'string'},
-    {element: 'string'},
+    annotate('string'),
+    annotate('string'),
   ],
 });
 
@@ -51,8 +51,8 @@ Typed Minim is only used for annotating functions, and though the identity funct
 var sum = namespace.typed.build({
   // array[number] -> number
   annotations: [
-    {element: 'array', content: [{element: 'number'}]},
-    {element: 'number'},
+    annotate('array', [annotate('number')]),
+    annotate('number'),
   ],
 
   fn: function(numbers) {
@@ -75,16 +75,17 @@ This solves question one of Project Euler with typed functions.
 ```js
 var _ = require('lodash');
 var minim = require('minim');
-var minimTyped = require('./lib/typed');
+var minimTyped = require('minim-typed');
+var annotate = require('minim-typed').annotate;
 
 var namespace = minim.namespace().use(minimTyped);
 
 var divBy = namespace.typed.build({
   // number number -> boolean
   annotations: [
-    {element: 'number'},
-    {element: 'number'},
-    {element: 'boolean'}
+    annotate('string'),
+    annotate('string'),
+    annotate('boolean'),
   ],
 
   fn: function(x, y) { return (x % y) === 0; }
@@ -93,8 +94,8 @@ var divBy = namespace.typed.build({
 var divBy3or5 = namespace.typed.build({
   // number -> boolean
   annotations: [
-    {element: 'number'},
-    {element: 'boolean'}
+    annotate('number'),
+    annotate('boolean'),
   ],
 
   fn: function(x) {
@@ -106,8 +107,8 @@ var divBy3or5 = namespace.typed.build({
 var sum = namespace.typed.build({
   // array[number] -> number
   annotations: [
-    {element: 'array', content: [{element: 'number'}]},
-    {element: 'number'},
+    annotate('array', [annotate('number')]),
+    annotate('number'),
   ],
 
   fn: function(numbers) {
@@ -120,8 +121,8 @@ var sum = namespace.typed.build({
 var take = namespace.typed.build({
   // number -> array
   annotations: [
-    {element: 'number'},
-    {element: 'array'},
+    annotate('number'),
+    annotate('array'),
   ],
 
   // Just wrapping Lodash's range function

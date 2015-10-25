@@ -72,4 +72,9 @@ export function namespace({base}) {
   };
 }
 
-export default {namespace};
+export function annotate(element, content) {
+  // TODO: Use actual elements instead of building one
+  return {element, content};
+}
+
+export default {namespace, annotate};
